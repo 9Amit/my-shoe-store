@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 
-// Mock data
 const products = [
   {
     id: 1,
@@ -33,6 +32,15 @@ const products = [
 ];
 
 const FeaturedProducts = () => {
+  const [cart, setCart] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const addToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product]);
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 2000);
+  };
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
@@ -56,12 +64,31 @@ const FeaturedProducts = () => {
                   {product.name}
                 </h3>
                 <p className="text-blue-600 font-bold mt-1">{product.price}</p>
-                <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                <button
+                  className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                  onClick={() => addToCart(product)}
+                >
                   Add to Cart
                 </button>
               </div>
             </div>
           ))}
+        </div>
+        {showPopup && <div className="popup">Added to cart</div>}
+
+        <div className="mt-10">
+          <h2 className="text-2xl font-bold text-center mb-4">Cart</h2>
+          {cart.length === 0 ? (
+            <p className="text-center">No items in cart.</p>
+          ) : (
+            <ul>
+              {cart.map((product, index) => (
+                <li key={index} className="text-center">
+                  {product.name} - {product.price}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </section>
@@ -69,4 +96,3 @@ const FeaturedProducts = () => {
 };
 
 export default FeaturedProducts;
-
