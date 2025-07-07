@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useCart } from "../context/CartContext";
 
+// You can extract this array to its own file if you want!
 const products = [
   {
     id: 1,
@@ -32,27 +34,26 @@ const products = [
 ];
 
 const FeaturedProducts = () => {
-  const [cart, setCart] = useState([]);
+  const { addToCart } = useCart();
   const [showPopup, setShowPopup] = useState(false);
 
-  const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
+  const handleAddToCart = (product) => {
+    addToCart(product);
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 2000);
+    setTimeout(() => setShowPopup(false), 1000);
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
           Featured Products
         </h2>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300"
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition"
             >
               <img
                 src={product.image}
@@ -66,7 +67,7 @@ const FeaturedProducts = () => {
                 <p className="text-blue-600 font-bold mt-1">{product.price}</p>
                 <button
                   className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-                  onClick={() => addToCart(product)}
+                  onClick={() => handleAddToCart(product)}
                 >
                   Add to Cart
                 </button>
@@ -74,22 +75,11 @@ const FeaturedProducts = () => {
             </div>
           ))}
         </div>
-        {showPopup && <div className="popup">Added to cart</div>}
-
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold text-center mb-4">Cart</h2>
-          {cart.length === 0 ? (
-            <p className="text-center">No items in cart.</p>
-          ) : (
-            <ul>
-              {cart.map((product, index) => (
-                <li key={index} className="text-center">
-                  {product.name} - {product.price}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {showPopup && (
+          <div className="fixed bottom-4 right-4 bg-green-600 text-white px-5 py-2 rounded shadow-lg z-50 transition">
+            Added to cart!
+          </div>
+        )}
       </div>
     </section>
   );

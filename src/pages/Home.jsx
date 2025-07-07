@@ -5,7 +5,7 @@ import Hero from "../components/Hero";
 const Home = () => {
   return (
     <div className="bg-white text-gray-800 font-sans">
-      <Header />
+      
       <Hero />
     </div>
   );
