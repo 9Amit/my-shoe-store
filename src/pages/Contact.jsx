@@ -6,8 +6,7 @@ const Contact = () => {
   function handleSubmit(e) {
     e.preventDefault();
     setSubmitted(true);
-    // In a real app, you'd send this data to your backend
-    // and handle errors/validation, etc.
+    
   }
 
   return (

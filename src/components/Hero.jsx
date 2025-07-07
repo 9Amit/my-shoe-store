@@ -11,7 +11,7 @@ const Hero = () => {
       />
       <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center text-center px-6">
         <h2 className="text-white text-5xl md:text-6xl font-bold mb-4">
-          Step Into Comfort
+          Step Into <span className="text-orange-400" >Comfort</span>
         </h2>
         <p className="text-white text-xl md:text-2xl mb-6 max-w-xl">
           Discover our latest collection of stylish and comfy shoes for all
@@ -22,8 +22,6 @@ const Hero = () => {
             Shop Now
           </a>
         </Link>
-
-        
       </div>
     </section>
   );

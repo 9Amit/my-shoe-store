@@ -3,7 +3,7 @@ import React from "react";
 const About = () => (
   <section className="py-16 bg-blue-50 min-h-screen">
     <div className="max-w-3xl mx-auto px-4 bg-white p-8 rounded-xl shadow-lg">
-      <h2 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+      <h2 className="text-3xl font-bold text-orange-600 mb-6 text-center">
         About ShoeHaven
       </h2>
       <p className="mb-4 text-gray-700 text-lg">
@@ -26,7 +26,7 @@ const About = () => (
         shop with peace of mind.
       </p>
       <div className="mt-8 text-center">
-        <span className="inline-block bg-blue-600 text-white px-6 py-2 rounded-full font-semibold shadow">
+        <span className="inline-block bg-orange-700 text-white px-6 py-2 rounded-full font-semibold shadow">
           Thank you for choosing ShoeHaven – Where Every Step Matters!
         </span>
       </div>
