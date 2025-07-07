@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useCart } from "../context/CartContext"; // Adjust path as needed
+import { useCart } from "../context/CartContext"; // Adjust path if needed
 
 const Header = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { cart } = useCart();
   const location = useLocation();
 
-  // Total item count in cart
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const Header = () => {
             ShoeHaven
           </h1>
         </Link>
-        <nav className="space-x-6">
+        <nav className="space-x-6 flex">
           <Link
             to="/"
             className={`text-gray-700 hover:text-blue-600 font-medium ${
@@ -59,25 +58,28 @@ const Header = () => {
           >
             Contact
           </Link>
+        </nav>
+        {/* Login button and Cart on the right */}
+        <div className="flex items-center space-x-4">
           <Link
-            to="/cart"
-            className="text-gray-700 hover:text-blue-600 font-medium relative"
+            to="/login"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
           >
-            <span role="img" aria-label="cart">
+            Login
+          </Link>
+          <Link to="/cart" className="relative flex items-center group">
+            <span role="img" aria-label="cart" className="text-2xl">
               🛒
             </span>
             {itemCount > 0 && (
-              <span className="absolute -top-2 -right-4 bg-blue-600 text-white rounded-full text-xs px-1">
+              <span className="absolute top-0 right-0 bg-blue-600 text-white rounded-full text-xs px-1 -mt-2 -mr-2">
                 {itemCount}
               </span>
             )}
-            <span className="ml-1">Cart</span>
+            <span className="ml-2 text-gray-700 font-medium group-hover:text-blue-600">
+              Cart
+            </span>
           </Link>
-        </nav>
-        <div>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            Login
-          </button>
         </div>
       </div>
     </header>
