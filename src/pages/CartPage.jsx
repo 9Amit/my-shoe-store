@@ -40,7 +40,7 @@ const CartPage = () => {
                     />
                     <div>
                       <div className="font-bold text-gray-800">{item.name}</div>
-                      <div className="text-blue-600 font-semibold">
+                      <div className="text-orange-600 font-semibold">
                         {item.price}
                       </div>
                       <div className="text-gray-500">Qty: {item.quantity}</div>
@@ -59,7 +59,7 @@ const CartPage = () => {
               Total: {getTotal()}
             </div>
             <div className="text-right mt-4">
-              <button 
+              <button
                 onClick={() => navigate("/checkout")}
                 className="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded"
               >

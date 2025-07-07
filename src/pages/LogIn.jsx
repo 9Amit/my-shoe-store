@@ -59,7 +59,7 @@ const Login = () => {
           {isLogin ? "Log In " : "Sign Up "}
         </h2>
         {message && (
-          <div className="mb-4 text-center text-blue-600 font-semibold">
+          <div className="mb-4 text-center text-orange-600 font-semibold">
             {message}
           </div>
         )}
@@ -95,7 +95,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
+              className="w-full bg-orange-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
             >
               Log In
             </button>
@@ -108,7 +108,7 @@ const Login = () => {
                   setMessage("");
                   resetFields();
                 }}
-                className="text-blue-600 hover:underline font-semibold"
+                className="text-orange-600 hover:underline font-semibold"
               >
                 Sign Up
               </button>
@@ -157,7 +157,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
+              className="w-full bg-orange-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
             >
               Sign Up
             </button>
@@ -170,7 +170,7 @@ const Login = () => {
                   setMessage("");
                   resetFields();
                 }}
-                className="text-blue-600 hover:underline font-semibold"
+                className="text-orange-600 hover:underline font-semibold"
               >
                 Log In
               </button>
