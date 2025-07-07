@@ -56,7 +56,7 @@ const Login = () => {
     <section className="py-16 bg-blue-50 min-h-screen">
       <div className="max-w-sm mx-auto px-4 bg-white p-8 rounded-xl shadow-lg">
         <h2 className="text-3xl font-bold text-blue-700 mb-8 text-center">
-          {isLogin ? "Log In to ShoeHaven" : "Sign Up for ShoeHaven"}
+          {isLogin ? "Log In " : "Sign Up "}
         </h2>
         {message && (
           <div className="mb-4 text-center text-blue-600 font-semibold">
@@ -77,7 +77,7 @@ const Login = () => {
                 required
                 value={fields.email}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg px-3 py-2 focus:outline-blue-400"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
             <div>
@@ -90,7 +90,7 @@ const Login = () => {
                 required
                 value={fields.password}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg px-3 py-2 focus:outline-blue-400"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
             <button

@@ -10,6 +10,8 @@ import { CartProvider } from "./context/CartContext"; // <-- Make sure this path
 import About from "./components/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/LogIn";
+import CheckoutPage from "./pages/CheckoutPage";
+import PaymentPage from "./pages/PaymentPage";
 
 const HomeContent = () => (
   <>
@@ -34,6 +36,8 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/payment" element={<PaymentPage/>} />
         </Routes>
       </Router>
     </CartProvider>

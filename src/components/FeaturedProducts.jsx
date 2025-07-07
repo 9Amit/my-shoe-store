@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
-// You can extract this array to its own file if you want!
 const products = [
   {
     id: 1,
@@ -31,16 +31,47 @@ const products = [
     image:
       "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/b22f6527107547ff975f5e887c6effd0_9366/Advantage_Premium_Shoes_White_IF0119_01_standard.jpg",
   },
+  {
+    id: 5,
+    name: "Street Runner",
+    price: "₹2,499",
+    image: "https://m.media-amazon.com/images/I/71o-ZGGPGwL._UY1000_.jpg",
+  },
+  {
+    id: 6,
+    name: "FlexStride Trainers",
+    price: "₹3,199",
+    image:
+      "https://5.imimg.com/data5/SELLER/Default/2024/3/404247308/VD/ET/SX/202342266/bersache-premium-sports-gym-tranding-stylish-running-shoes-1000x1000.jpg",
+  },
+  {
+    id: 7,
+    name: "MetroKicks",
+    price: "₹2,299",
+    image: "https://m.media-amazon.com/images/I/71uUhC0wNbL._SY695_.jpg",
+  },
+  {
+    id: 8,
+    name: "Puma Drift Cat",
+    price: "₹4,899",
+    image: "https://m.media-amazon.com/images/I/71uEBGZ+5HL._SY695_.jpg",
+  },
 ];
 
 const FeaturedProducts = () => {
   const { addToCart } = useCart();
   const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
 
   const handleAddToCart = (product) => {
     addToCart(product);
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 1000);
+  };
+
+  const handleBuyNow = (product) => {
+    addToCart(product);
+    navigate("/cart");
   };
 
   return (
@@ -65,16 +96,27 @@ const FeaturedProducts = () => {
                   {product.name}
                 </h3>
                 <p className="text-blue-600 font-bold mt-1">{product.price}</p>
-                <button
-                  className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-                  onClick={() => handleAddToCart(product)}
-                >
-                  Add to Cart
-                </button>
+
+                
+                <div className="flex gap-2 mt-4">
+                  <button
+                    className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Add to Cart
+                  </button>
+                  <button
+                    className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+                    onClick={() => handleBuyNow(product)}
+                  >
+                    Buy Now
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
+
         {showPopup && (
           <div className="fixed bottom-4 right-4 bg-green-600 text-white px-5 py-2 rounded shadow-lg z-50 transition">
             Added to cart!
