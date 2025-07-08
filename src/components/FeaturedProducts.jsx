@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 
 const products = [
   {
@@ -61,12 +64,16 @@ const products = [
 const FeaturedProducts = () => {
   const { addToCart } = useCart();
   const [showPopup, setShowPopup] = useState(false);
+  const [addedProduct, setAddedProduct] = useState(null);
   const navigate = useNavigate();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const handleAddToCart = (product) => {
     addToCart(product);
+    setAddedProduct(product);
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 1000);
+    setTimeout(() => setShowPopup(false), 2000);
   };
 
   const handleBuyNow = (product) => {
@@ -74,55 +81,246 @@ const FeaturedProducts = () => {
     navigate("/cart");
   };
 
-  return (
-    <section className="py-16 bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
-          Featured Products
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition"
-            >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-60 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-700">
-                  {product.name}
-                </h3>
-                <p className="text-blue-600 font-bold mt-1">{product.price}</p>
+  // Animation Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
 
-                
-                <div className="flex gap-2 mt-4">
-                  <button
-                    className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+  const titleVariants = {
+    hidden: { y: -50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const imageVariants = {
+    hover: {
+      scale: 1.1,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const buttonVariants = {
+    hover: {
+      scale: 1.05,
+      transition: {
+        duration: 0.2,
+        ease: "easeInOut",
+      },
+    },
+    tap: {
+      scale: 0.95,
+    },
+  };
+
+  const popupVariants = {
+    initial: {
+      opacity: 0,
+      y: 50,
+      scale: 0.3,
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.4,
+        ease: "backOut",
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.5,
+      transition: {
+        duration: 0.2,
+        ease: "easeIn",
+      },
+    },
+  };
+
+  return (
+    <section className="py-16 bg-gray-50 min-h-screen" ref={ref}>
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Title */}
+        <motion.h2
+          className="text-3xl font-bold text-center mb-10 text-gray-800"
+          variants={titleVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          Featured Products
+        </motion.h2>
+
+        {/* Products Grid */}
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {products.map((product, index) => (
+            <motion.div
+              key={product.id}
+              variants={cardVariants}
+              whileHover={{ y: -10 }}
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              {/* Product Image */}
+              <motion.div
+                className="relative overflow-hidden"
+                whileHover="hover"
+              >
+                <motion.img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-60 object-cover"
+                  variants={imageVariants}
+                  loading="lazy"
+                />
+                {/* Overlay on hover */}
+                <motion.div
+                  className="absolute inset-0 bg-black"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 0.1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
+
+              {/* Product Details */}
+              <motion.div
+                className="p-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+              >
+                <motion.h3
+                  className="text-lg font-semibold text-gray-700"
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {product.name}
+                </motion.h3>
+                <motion.p
+                  className="text-blue-600 font-bold mt-1"
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  {product.price}
+                </motion.p>
+
+                {/* Buttons */}
+                <motion.div
+                  className="flex gap-2 mt-4"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <motion.button
+                    className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
                     onClick={() => handleAddToCart(product)}
+                    variants={buttonVariants}
+                    whileHover="hover"
+                    whileTap="tap"
                   >
                     Add to Cart
-                  </button>
-                  <button
-                    className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+                  </motion.button>
+                  <motion.button
+                    className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors"
                     onClick={() => handleBuyNow(product)}
+                    variants={buttonVariants}
+                    whileHover="hover"
+                    whileTap="tap"
                   >
                     Buy Now
-                  </button>
-                </div>
-              </div>
-            </div>
+                  </motion.button>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {showPopup && (
-          <div className="fixed bottom-4 right-4 bg-green-600 text-white px-5 py-2 rounded shadow-lg z-50 transition">
-            Added to cart!
-          </div>
-        )}
+        {/* Popup Notification */}
+        <AnimatePresence>
+          {showPopup && (
+            <motion.div
+              className="fixed bottom-4 right-4 bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg z-50 flex items-center gap-3"
+              variants={popupVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <motion.div
+                initial={{ rotate: 0 }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              >
+                ✓
+              </motion.div>
+              <div>
+                <p className="font-semibold">Added to cart!</p>
+                {addedProduct && (
+                  <p className="text-sm opacity-90">{addedProduct.name}</p>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+
+      {/* Background Decoration */}
+      <motion.div
+        className="absolute top-0 left-0 w-96 h-96 bg-orange-200 rounded-full filter blur-3xl opacity-20 -z-10"
+        animate={{
+          x: [0, 100, 0],
+          y: [0, -100, 0],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          repeatType: "reverse",
+        }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-0 w-96 h-96 bg-blue-200 rounded-full filter blur-3xl opacity-20 -z-10"
+        animate={{
+          x: [0, -100, 0],
+          y: [0, 100, 0],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          repeatType: "reverse",
+        }}
+      />
     </section>
   );
 };
