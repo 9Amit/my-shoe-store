@@ -4,14 +4,14 @@ import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
+import { useAuth } from "../context/AuthContext";
 
 const db = getFirestore();
 
 const SignupLogin = () => {
-  const [user, setUser] = useState(null);
+  const { user } = useAuth(); // Use context instead of local state
   const [isLogin, setIsLogin] = useState(true);
   const [fields, setFields] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
@@ -44,8 +44,8 @@ const SignupLogin = () => {
         fields.email,
         fields.password
       );
-      setUser(result.user);
       await saveUserToDB(result.user);
+      // Remove setUser - auth state is managed by context
     } catch (err) {
       setError(err.message.replace("Firebase: ", ""));
     }
@@ -65,8 +65,8 @@ const SignupLogin = () => {
       );
       // Update displayName
       await updateProfile(userCred.user, { displayName: fields.name });
-      setUser({ ...userCred.user, displayName: fields.name });
       await saveUserToDB(userCred.user, fields.name);
+      // Remove setUser - auth state is managed by context
     } catch (err) {
       setError(err.message.replace("Firebase: ", ""));
     }
@@ -79,7 +79,7 @@ const SignupLogin = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       await saveUserToDB(result.user);
-      setUser(result.user);
+      // Remove setUser - auth state is managed by context
     } catch (error) {
       setError("Failed to sign in with Google. Please try again.");
     }
@@ -88,17 +88,11 @@ const SignupLogin = () => {
   // Logout
   const handleLogout = () => {
     signOut(auth)
-      .then(() => setUser(null))
+      .then(() => {
+        // No need to setUser(null) - handled by context
+      })
       .catch((err) => setError("Sign-out error: " + err.message));
   };
-
-  // Watch auth state
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) =>
-      setUser(currentUser)
-    );
-    return () => unsubscribe();
-  }, []);
 
   const handleChange = (e) => {
     setFields((v) => ({ ...v, [e.target.name]: e.target.value }));
@@ -155,7 +149,7 @@ const SignupLogin = () => {
                     value={fields.name}
                     onChange={handleChange}
                     placeholder="Full Name"
-                    className="w-full border-gray-300 rounded-lg px-3 py-2 focus:outline-blue-400"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-400"
                   />
                 </div>
               )}
@@ -167,7 +161,7 @@ const SignupLogin = () => {
                   value={fields.email}
                   onChange={handleChange}
                   placeholder="Email"
-                  className="w-full border-gray-300 rounded-lg px-3 py-2 focus:outline-blue-400"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-400"
                   autoComplete="username"
                 />
               </div>
@@ -179,15 +173,17 @@ const SignupLogin = () => {
                   value={fields.password}
                   onChange={handleChange}
                   placeholder="Password"
-                  className="w-full border-gray-300 rounded-lg px-3 py-2 focus:outline-blue-400"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-400"
                   autoComplete={isLogin ? "current-password" : "new-password"}
                 />
               </div>
-              {error && <div className="text-red-600 mb-2">{error}</div>}
+              {error && (
+                <div className="text-red-600 mb-2 text-sm">{error}</div>
+              )}
               <button
                 type="submit"
-                className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg ${
-                  loading && "opacity-60"
+                className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors ${
+                  loading ? "opacity-60 cursor-not-allowed" : ""
                 }`}
                 disabled={loading}
               >
@@ -206,7 +202,7 @@ const SignupLogin = () => {
             {/* Google Auth */}
             <button
               onClick={handleGoogleLogin}
-              className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-lg mb-4 flex items-center justify-center gap-2"
+              className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-lg mb-4 flex items-center justify-center gap-2 transition-colors"
               disabled={loading}
             >
               <svg width={20} height={20} viewBox="0 0 48 48">

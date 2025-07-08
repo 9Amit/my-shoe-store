@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
@@ -97,8 +98,8 @@ const About = () => {
             transition={{ delay: 0.3 }}
           >
             <span className="text-gray-800">About </span>
-            <span className="text-orange-500">Shoe</span>
-            <span className="text-red-500">Haven</span>
+            <span className="text-orange-500">Walk</span>
+            <span className="text-red-500">Nest</span>
           </motion.h2>
           <motion.p
             className="text-xl text-gray-600 max-w-2xl mx-auto"
@@ -124,7 +125,7 @@ const About = () => {
             </h3>
             <div className="space-y-4 text-gray-700">
               <p className="text-lg leading-relaxed">
-                ShoeHaven was founded with a single mission: to bring the best
+                WalkNest was founded with a single mission: to bring the best
                 shoes from around the world right to your doorstep. We believe
                 that the right pair of shoes can transform not just your outfit,
                 but your entire day.
@@ -210,7 +211,7 @@ const About = () => {
             className="text-3xl font-bold text-center text-gray-800 mb-12"
             variants={itemVariants}
           >
-            Why Choose <span className="text-orange-500">ShoeHaven</span>?
+            Why Choose <span className="text-orange-500">WalkNest</span>?
           </motion.h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => (
@@ -265,7 +266,7 @@ const About = () => {
             animate={isInView ? { y: 0, opacity: 1 } : {}}
             transition={{ delay: 0.9 }}
           >
-            Join thousands of happy customers who trust ShoeHaven
+            Join thousands of happy customers who trust WalkNest
           </motion.p>
           <motion.button
             className="bg-white text-orange-500 px-8 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow"

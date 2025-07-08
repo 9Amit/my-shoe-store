@@ -79,16 +79,14 @@ const Contact = () => {
     {
       icon: "📍",
       title: "Visit Our Store",
-      content: [
-        "Chandrapura Bokaro Steel city-828403",
-      ],
+      content: ["Chandrapura Bokaro Steel city-828403"],
       color: "from-blue-400 to-blue-600",
     },
     {
       icon: "📧",
       title: "Email Us",
-      content: ["support@shoehaven.com", "sales@shoehaven.com"],
-      link: "mailto:support@shoehaven.com",
+      content: ["support@WalkNest.com", "sales@WalkNest.com"],
+      link: "mailto:support@WalkNest.com",
       color: "from-purple-400 to-purple-600",
     },
     {
@@ -254,7 +252,7 @@ const Contact = () => {
                         onFocus={() => setFocusedField("name")}
                         onBlur={() => setFocusedField("")}
                         className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-300"
-                        placeholder="John Doe"
+                        placeholder="Amit Bharti"
                       />
                     </motion.div>
 
@@ -277,7 +275,7 @@ const Contact = () => {
                         onFocus={() => setFocusedField("email")}
                         onBlur={() => setFocusedField("")}
                         className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-300"
-                        placeholder="john@example.com"
+                        placeholder="amitbharti08kumar@gmail.com"
                       />
                     </motion.div>
 
@@ -325,7 +323,7 @@ const Contact = () => {
                 className="text-white"
               >
                 <h3 className="text-3xl font-bold mb-6">
-                  Why Contact ShoeHaven?
+                  Why Contact WalkNest?
                 </h3>
                 <div className="space-y-4">
                   {[

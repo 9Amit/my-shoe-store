@@ -13,6 +13,7 @@ import TestimonialsPage from "./pages/TestimonialsPage";
 import Header from "./components/Header";
 import CartPage from "./pages/CartPage";
 import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext"; // Add this import
 import About from "./components/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/LogIn";
@@ -81,7 +82,6 @@ const ScrollProgress = () => {
   );
 };
 
-
 const AppContent = () => {
   return (
     <>
@@ -103,13 +103,13 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <CartProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </CartProvider>
-
-    
+    <AuthProvider>
+      <CartProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </CartProvider>
+    </AuthProvider>
   );
 };
 

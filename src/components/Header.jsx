@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/shoes_2742687.png";
 
@@ -8,6 +10,7 @@ const Header = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cart } = useCart();
+  const { user } = useAuth();
   const location = useLocation();
 
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -146,25 +149,25 @@ const Header = () => {
             <Link to="/" className="flex items-center space-x-3">
               <motion.img
                 src={logo}
-                alt="ShoeHaven Logo"
+                alt="WalkNest Logo"
                 className="h-10 w-10"
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.6 }}
               />
-              <h1 className="text-2xl sm:text-3xl font-extrabold font-open text-gray-800">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold font-open text-gray-800">
                 <motion.span
                   className="text-orange-500 inline-block"
                   whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  Shoe
+                  Walk
                 </motion.span>
                 <motion.span
                   className="text-red-500 inline-block"
                   whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  Haven
+                  Nest
                 </motion.span>
               </h1>
             </Link>
@@ -208,22 +211,38 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Login + Cart + Mobile Menu Button */}
-          <div className="flex items-center space-x-4">
+          {/* Login/User + Cart + Mobile Menu Button */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Updated Login/User section */}
             <motion.div
               variants={navLinkVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="hidden sm:block"
             >
-              <Link
-                to="/login"
-                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
-              >
-                Login
-              </Link>
+              {user ? (
+                <div className="flex items-center space-x-3">
+                  <span className="text-gray-700 font-medium">
+                    Hi, {user.displayName?.split(" ")[0] || "User"}
+                  </span>
+                  <Link
+                    to="/login"
+                    className="text-sm text-gray-500 hover:text-orange-500 transition"
+                  >
+                    Profile
+                  </Link>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+                >
+                  Login
+                </Link>
+              )}
             </motion.div>
 
+            {/* Cart section */}
             <motion.div
               variants={cartVariants}
               whileHover="hover"
@@ -311,12 +330,25 @@ const Header = () => {
               exit="closed"
             >
               <div className="p-6 space-y-4">
+                {/* Add user info at the top of mobile menu */}
+                {user && (
+                  <motion.div
+                    variants={mobileMenuItemVariants}
+                    className="border-b pb-4 mb-4"
+                  >
+                    <p className="text-gray-700 font-medium">
+                      Hi, {user.displayName?.split(" ")[0] || "User"}
+                    </p>
+                    <p className="text-sm text-gray-500">{user.email}</p>
+                  </motion.div>
+                )}
+
                 {[
                   { name: "Home", path: "/" },
                   { name: "Shop", path: "/shop" },
                   { name: "About", path: "/about" },
                   { name: "Contact", path: "/contact" },
-                  { name: "Login", path: "/login" },
+                  { name: user ? "Profile" : "Login", path: "/login" },
                 ].map(({ name, path }) => (
                   <motion.div key={name} variants={mobileMenuItemVariants}>
                     <Link
