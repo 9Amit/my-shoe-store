@@ -16,7 +16,7 @@ const PaymentPage = () => {
         key: "rzp_test_YourTestKeyHere", // Replace with your Razorpay Test Key
         amount: 50000, // amount in paise (₹500.00)
         currency: "INR",
-        name: "ShoeHaven",
+        name: "WalkNest",
         description: "Order Payment",
         image: "https://your-logo-url.com/logo.png",
         handler: function (response) {

@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const { cart, removeFromCart } = useCart();
   const navigate = useNavigate();
+
+  // Track selected sizes
+  const [selectedSizes, setSelectedSizes] = useState({});
 
   function getTotal() {
     return cart
@@ -15,6 +18,12 @@ const CartPage = () => {
       )
       .toLocaleString("en-IN", { style: "currency", currency: "INR" });
   }
+
+  const handleSizeChange = (itemId, size) => {
+    setSelectedSizes((prev) => ({ ...prev, [itemId]: size }));
+  };
+
+  const allSizesSelected = cart.every((item) => selectedSizes[item.id]);
 
   return (
     <section className="py-16 bg-gray-50 min-h-screen">
@@ -44,6 +53,27 @@ const CartPage = () => {
                         {item.price}
                       </div>
                       <div className="text-gray-500">Qty: {item.quantity}</div>
+
+                      {/* Shoe Size Selection */}
+                      <div className="mt-2">
+                        <label className="text-sm text-gray-600 mr-2">
+                          Select Size:
+                        </label>
+                        <select
+                          className="border rounded px-2 py-1"
+                          value={selectedSizes[item.id] || ""}
+                          onChange={(e) =>
+                            handleSizeChange(item.id, e.target.value)
+                          }
+                        >
+                          <option value="">--Select--</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                   <button
@@ -55,16 +85,29 @@ const CartPage = () => {
                 </li>
               ))}
             </ul>
+
             <div className="text-right text-lg font-bold mt-8">
               Total: {getTotal()}
             </div>
+
+            {/* Proceed Button */}
             <div className="text-right mt-4">
               <button
                 onClick={() => navigate("/checkout")}
-                className="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded"
+                className={`${
+                  allSizesSelected
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-gray-400 cursor-not-allowed"
+                } text-white font-semibold px-4 py-2 rounded`}
+                disabled={!allSizesSelected}
               >
                 Proceed to Checkout
               </button>
+              {!allSizesSelected && (
+                <p className="text-sm text-red-600 mt-2">
+                  Please select sizes for all items to proceed.
+                </p>
+              )}
             </div>
           </>
         )}
@@ -74,3 +117,4 @@ const CartPage = () => {
 };
 
 export default CartPage;
+  
