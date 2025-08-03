@@ -1,6 +1,6 @@
 # WalkNest - ReactJS E-Commerce Footwear Platform
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20App-blue?style=for-the-badge)](https://your-walknest-url.web.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20App-blue?style=for-the-badge)](https://walknest.netlify.app)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![React](https://img.shields.io/badge/React-18.0+-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
@@ -9,7 +9,7 @@ A modern, full-stack e-commerce footwear application built with ReactJS, Firebas
 
 ## 🌟 Live Demo
 
-[View Live Application](https://your-walknest-url.web.app) | [Video Demo](https://youtube.com/your-demo-video)
+[View Live Application](https://walknest.netlify.app 
 
 ## 📋 Table of Contents
 
@@ -61,5 +61,4 @@ A modern, full-stack e-commerce footwear application built with ReactJS, Firebas
 - **Prettier** - Code formatting
 - **Chrome DevTools** - Performance optimization
 
-## 🏗️ Architecture
 
